@@ -1,5 +1,5 @@
 import { ServerlessPatternDetector } from '../pattern-detector';
-import { EventBus, EventTypes } from '@orcdkestrator/core';
+import { EventBus } from '@orcdkestrator/core';
 import * as fs from 'fs';
 import * as path from 'path';
 

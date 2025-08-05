@@ -1,7 +1,6 @@
 import { ServerlessDependencyScanner } from '../dependency-scanner';
 import { EventBus } from '@orcdkestrator/core';
 import * as fs from 'fs';
-import * as yaml from 'js-yaml';
 
 // Mock dependencies
 jest.mock('fs', () => ({

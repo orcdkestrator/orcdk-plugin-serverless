@@ -15,7 +15,7 @@
     "clean": "rimraf dist",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint 'src/**/*.ts'",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [
@@ -37,14 +37,17 @@
   "homepage": "https://github.com/orcdkestrator/orcdk-plugin-serverless#readme",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.0.0",
+    "@aws-sdk/client-ssm": "^3.0.0",
     "chokidar": "^4.0.3",
     "js-yaml": "^4.1.0"
   },
   "peerDependencies": {
-    "@orcdkestrator/core": "^1.0.0"
+    "@orcdkestrator/core": "^1.0.2"
   },
   "devDependencies": {
     "@types/jest": "^29.0.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

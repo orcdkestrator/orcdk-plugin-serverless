@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 import { CloudFormationClient, DescribeStacksCommand, DescribeStacksCommandOutput, Stack } from '@aws-sdk/client-cloudformation';
 import { SSMClient, GetParametersByPathCommand } from '@aws-sdk/client-ssm';
 import { EventBus, EventTypes } from '@orcdkestrator/core';

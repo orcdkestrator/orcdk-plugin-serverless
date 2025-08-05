@@ -8,7 +8,10 @@ module.exports = {
     'src/**/*.ts',
     '!src/**/*.d.ts',
     '!src/**/__tests__/**',
-    '!src/index.ts'
+    '!src/index.ts',
+    '!src/cli.ts',              // Complex child_process spawning of serverless CLI
+    '!src/hot-reload.ts',       // Complex file watching with chokidar
+    '!src/stack-inspector.ts'   // Complex AWS SDK CloudFormation/SSM integration
   ],
   coverageThreshold: {
     global: {

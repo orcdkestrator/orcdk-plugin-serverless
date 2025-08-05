@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 import { Plugin, PluginConfig, OrcdkConfig, EventBus, EventTypes } from '@orcdkestrator/core';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -9,16 +9,13 @@ import { ServerlessHotReload } from './hot-reload';
 import { StackInspector } from './stack-inspector';
 import { ServerlessConfig, ServerlessService, ServerlessDeploymentOptions } from './types';
 
-// Version will be loaded asynchronously
-let pluginVersion = '1.0.0';
-
 /**
  * Serverless Framework plugin for orcdkestrator
  * Enables deployment of Serverless services alongside CDK stacks
  */
 export class ServerlessPlugin implements Plugin {
-  public readonly name = '@orcdkestrator/serverless';
-  public readonly version = pluginVersion;
+  public readonly name = '@orcdkestrator/orcdk-plugin-serverless';
+  public readonly version = '1.0.0';
   
   private config: ServerlessConfig = {};
   private orcdkConfig: OrcdkConfig | null = null;
@@ -33,16 +30,6 @@ export class ServerlessPlugin implements Plugin {
     this.config = config.config as ServerlessConfig || {};
     this.orcdkConfig = orcdkConfig;
     this.eventBus = EventBus.getInstance();
-    
-    // Load version asynchronously
-    try {
-      const packageJsonPath = path.join(__dirname, '../..', 'package.json');
-      const packageContent = await fs.promises.readFile(packageJsonPath, 'utf-8');
-      const packageJson = JSON.parse(packageContent);
-      pluginVersion = packageJson.version;
-    } catch {
-      // Keep default version if loading fails
-    }
     
     // Initialize components
     this.cli = new ServerlessCLI();

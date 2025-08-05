@@ -26,10 +26,14 @@ describe('ServerlessPlugin', () => {
   });
 
   it('should have correct name', () => {
-    expect(plugin.name).toBe('serverless');
+    expect(plugin.name).toBe('@orcdkestrator/orcdk-plugin-serverless');
   });
 
   it('should be defined', () => {
     expect(plugin).toBeDefined();
+  });
+
+  it('should initialize successfully', async () => {
+    await expect(plugin.initialize(mockConfig, mockOrcdkConfig)).resolves.not.toThrow();
   });
 });
