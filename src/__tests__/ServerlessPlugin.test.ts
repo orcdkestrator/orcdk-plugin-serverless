@@ -10,13 +10,15 @@ describe('ServerlessPlugin', () => {
     mockConfig = {
       name: 'serverless',
       enabled: true,
-      options: {}
+      config: {}
     };
 
     mockOrcdkConfig = {
-      version: '1.0.0',
-      environments: {},
-      isLocal: true,
+      cdkRoot: 'cdk',
+      deploymentStrategy: 'auto',
+      environments: {
+        local: { displayName: 'Local', isLocal: true }
+      },
       plugins: []
     };
 

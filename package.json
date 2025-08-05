@@ -38,8 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "chokidar": "^4.0.3",
-    "js-yaml": "^4.1.0",
-    "@orcdkestrator/core": "^1.0.0"
+    "js-yaml": "^4.1.0"
   },
   "peerDependencies": {
     "@orcdkestrator/core": "^1.0.0"
