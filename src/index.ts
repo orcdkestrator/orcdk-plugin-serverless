@@ -15,7 +15,7 @@ import { ServerlessConfig, ServerlessService, ServerlessDeploymentOptions } from
  */
 export class ServerlessPlugin implements Plugin {
   public readonly name = '@orcdkestrator/orcdk-plugin-serverless';
-  public readonly version = '1.0.1';
+  public readonly version = '1.0.2';
   
   private config: ServerlessConfig = {};
   private orcdkConfig: OrcdkConfig | null = null;
