@@ -203,4 +203,35 @@ describe('ServerlessPatternDetector', () => {
       );
     });
   });
+  
+  describe('when handling file size limits', () => {
+    it('should skip files exceeding size limit', async () => {
+      // Given a large file
+      const mockFiles = [path.join(process.cwd(), 'serverless.yml')];
+      jest.spyOn(detector as any, 'findServerlessConfigs').mockResolvedValue(mockFiles);
+      jest.spyOn(fs.promises, 'stat').mockResolvedValue({ 
+        size: 11 * 1024 * 1024 // 11MB, exceeds 10MB limit
+      } as any);
+      
+      // When scanning
+      const pattern = await detector.scan();
+      
+      // Then no services found
+      expect(pattern.services).toHaveLength(0);
+    });
+  });
+  
+  describe('when handling path safety', () => {
+    it('should skip files outside project boundaries', async () => {
+      // Given path outside project
+      const mockFiles = ['/etc/passwd/serverless.yml'];
+      jest.spyOn(detector as any, 'findServerlessConfigs').mockResolvedValue(mockFiles);
+      
+      // When scanning
+      const pattern = await detector.scan();
+      
+      // Then no services found (path outside project boundaries)
+      expect(pattern.services).toHaveLength(0);
+    });
+  });
 });

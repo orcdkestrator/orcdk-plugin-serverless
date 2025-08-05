@@ -221,6 +221,28 @@ custom:
         'ServerlessDependencyScanner'
       );
     });
+    
+    it('should handle complex CF interpolation patterns', async () => {
+      // Given complex patterns that need fallback logic
+      const yamlContent = `
+custom:
+  # Pattern that needs complex fallback
+  pattern1: \${cf:\${self:provider.stage}-\${self:provider.region}-api.Output}
+  # Pattern with 'stack' in the middle
+  pattern2: \${cf:my-stack-name-service.Output}
+  # Pattern without 'stack' at all
+  pattern3: \${cf:\${self:provider.stage}-api-service.Output}
+`;
+      jest.spyOn(fs.promises, 'readFile').mockResolvedValue(yamlContent);
+      
+      // When scanning
+      const deps = await scanner.scanDependencies('serverless.yml');
+      
+      // Then handle complex patterns
+      expect(deps).toContain('api-stack');
+      expect(deps).toContain('my-stack-name-service');
+      expect(deps).toContain('api-service-stack');
+    });
   });
   
   describe('when handling edge cases', () => {
@@ -304,12 +326,44 @@ custom:
       expect(deps).toContain('api-gateway-stack');
       // 'global-param' might be included as fallback
     });
+    
+    it('should handle SSM paths with wildcards in stack names', async () => {
+      // Given SSM paths with wildcards
+      const yamlContent = `
+custom:
+  # Pattern with wildcards
+  pattern1: \${ssm:/*-stack/param}
+  pattern2: \${ssm:/dev/*-api-stack/endpoint}
+  pattern3: \${ssm:/-stack-/value}
+`;
+      jest.spyOn(fs.promises, 'readFile').mockResolvedValue(yamlContent);
+      
+      // When scanning
+      const deps = await scanner.scanDependencies('serverless.yml');
+      
+      // Then extract stack names without wildcards
+      expect(deps).toContain('stack');
+      expect(deps).toContain('api-stack');
+    });
   });
   
   describe('when file operations fail', () => {
     it('should handle file read errors gracefully', async () => {
       // Given file read error
       jest.spyOn(fs.promises, 'readFile').mockRejectedValue(new Error('File not found'));
+      
+      // When scanning
+      const deps = await scanner.scanDependencies('serverless.yml');
+      
+      // Then return empty array
+      expect(deps).toEqual([]);
+    });
+    
+    it('should handle files exceeding size limit', async () => {
+      // Given file size exceeds 10MB limit
+      jest.spyOn(fs.promises, 'stat').mockResolvedValue({ 
+        size: 11 * 1024 * 1024 // 11MB
+      } as any);
       
       // When scanning
       const deps = await scanner.scanDependencies('serverless.yml');
