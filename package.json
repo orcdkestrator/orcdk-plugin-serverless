@@ -1,6 +1,6 @@
 {
   "name": "@orcdkestrator/orcdk-plugin-serverless",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Serverless Framework integration plugin for Orcdkestrator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
